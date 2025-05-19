@@ -3,11 +3,15 @@ import cv2
 import matplotlib.pyplot as plt
 
 class Vaizdas:
-    def __init__(self, path: str):
+    def __init__(self, path: str, true_mask_path : str):
         self.path = path
         self.rgb = cv2.imread(path, cv2.IMREAD_COLOR_RGB)
         self._original = cv2.imread(path, cv2.IMREAD_COLOR_RGB)
-        self.mask = None
+        self.threshold_mask = None
+        self.mser_mask = None
+        self.true_mask = None
+        if true_mask_path is not None:
+            self.true_mask = cv2.imread(true_mask_path, cv2.IMREAD_GRAYSCALE)
         assert self._original is not None, f"\n\nImage: {path}, could not be loaded. \n\n"
 
     @property
@@ -39,6 +43,3 @@ class Vaizdas:
                 plt.xlim([0,256])
 
         plt.show()
-
-    def set_mask(self, mask):
-        self.mask = mask
